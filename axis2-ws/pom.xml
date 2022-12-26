@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.example</groupId>
+        <artifactId>axis2-poc</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>axis2-ws</artifactId>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <!--wsdl2java-->
+        <dependency>
+            <groupId>org.apache.axis2</groupId>
+            <artifactId>axis2-xmlbeans</artifactId>
+            <version>1.7.9</version>
+        </dependency>
+
+        <!--aar-->
+
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>${project.build.directory}/generated-sources/axis2/wsdl2code/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+        </resources>
+
+       <plugins>
+            <plugin>
+                <groupId>org.apache.axis2</groupId>
+                <artifactId>axis2-wsdl2code-maven-plugin</artifactId>
+                <version>1.7.9</version>
+                <configuration>
+                    <generateAllClasses>true</generateAllClasses>
+                    <generateServerSide>true</generateServerSide>
+                    <generateServicesXml>true</generateServicesXml>
+                    <packageName>com.example.ws</packageName>
+                    <wsdlFile>${project.basedir}/src/main/resources/wsdl/Calculator.wsdl</wsdlFile>
+                    <databindingName>xmlbeans</databindingName>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>wsdl2code</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+           <plugin>
+               <groupId>org.apache.axis2</groupId>
+               <artifactId>axis2-aar-maven-plugin</artifactId>
+               <version>1.7.9</version>
+               <extensions>true</extensions>
+               <configuration>
+                   <includeDependencies>false</includeDependencies>
+                   <servicesXmlFile>${project.build.directory}/generated-sources/axis2/wsdl2code/resources/services.xml</servicesXmlFile>
+                   <wsdlFile>src/main/resources/wsdl/Calculator.wsdl</wsdlFile>
+                   <aarName>Calculator</aarName>
+                   <!--<outputDirectory></outputDirectory>-->
+               </configuration>
+               <executions>
+                   <execution>
+                       <goals>
+                           <goal>aar</goal>
+                       </goals>
+                   </execution>
+               </executions>
+           </plugin>
+        </plugins>
+    </build>
+
+</project>

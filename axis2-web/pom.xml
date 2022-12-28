@@ -8,7 +8,7 @@
         <artifactId>axis2-poc</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-
+    <packaging>war</packaging>
     <artifactId>axis2-web</artifactId>
 
     <properties>
@@ -16,5 +16,9 @@
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <build>
+        <finalName>axis2</finalName>
+    </build>
 
 </project>
